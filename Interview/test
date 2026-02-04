@@ -3,9 +3,55 @@ https://arxiv.org/pdf/2503.16419 Stop Overthinking: A Survey on Efficient Reason
 https://arxiv.org/pdf/2008.00842 A Survey on the Evolution of Stream Processing Systems
 
 https://arxiv.org/pdf/2312.14647v2  Towards Message Brokers for Generative AI: Survey, Challenges, and Opportunities
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+Designed and implemented an AI-driven conversational chatbot (defect triaging) to triage the defects created in non-prod environments by integrating with available tools (logs, code commits, etc..,) and knowledge bases (history defects, SME inputs, etc.,). As the adoption increases, the defect triaging system slowed down significantly. Even though we added more server power, it wasn't helping. We were paying for high-end AI processing, but tickets were taking minutes instead of seconds to resolve.
 
+Where I started
+I first looked at our Servers logs and logging DB. I thought the system was crashing because too many people were using it at once. I increased the memory and CPU power, but the speed didn't improve at all.
 
+What I checked next
+I started tracking the AI’s behavior for each ticket. I found that when a bug report included a very long application log (like a 20-page document), the AI became "overwhelmed." It was trying to read every single line of data before making a decision.
 
+What evidence changed my direction
+I realized the issue wasn't our servers; it was "Data Noise." We were sending too much useless information to the AI. This caused two problems:
+High Costs: We were paying for "tokens" (words) that weren't needed.
+Latency: The more data we sent, the slower the AI got, creating a massive "traffic jam" in our pipeline.
+Also, the audit log showed that the application log extraction process took considerable amount of time.
+
+How I verified the fix
+I changed the workflow to a Three-Step Process:
+Step 1: A smaller, cheaper AI "cleaned" the data first (after consulting with SME), removing the junk and keeping only the errors.
+Step 2: Python concurrency and dedicated server for hosting the log extraction API with enough replicas
+Step 3: The main AI analyzed only that clean summary.
+
+The Result: 
+The system became 3x faster and our AI costs dropped by 60%. I confirmed the fix by running 200 complex bugs through the system, proving it was now both faster and just as accurate as a human.
+
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
+
+The Situation:
+As a young project lead, i was managing the EU invoicing product in Ford Motor Company. As this is related to Invoicing, any changes in the EU business process will have impact on my invoicing product and the team was loaded with huge number of projects/enhancements. During a busy project with a tight deadline, I tried to "lead by example" by taking on all the hardest tasks myself. I thought I was protecting my team from stress and making sure the work was perfect.
+
+The Feedback:
+A teammate told me that by doing all the difficult work, I had become a bottleneck. Because I was overwhelmed, the rest of the team was stuck waiting for me to finish. They also felt like I didn't trust them with important work, which lowered their morale.
+
+What I Asked:
+I was surprised, so I asked:
+"Do you feel ready to take on these harder tasks if I support you?"
+"Is the team more upset about the amount of work or the lack of trust?"
+
+What I Changed:
+I realized that my action was actually hurting the team. I changed my approach:
+Delegated More: I handed over tasks to others, even if I could do them slightly faster, so I was free to help the whole group.
+Mentored Instead of Doing: I assigned the hard tasks to team members and acted as their advisor instead of doing the work for them.
+Shared Visibility: We used a "Task Board" so everyone could see who was doing what. If I took on too much, the team was allowed to tell me to share the load.
+
+The Result:
+The project finished faster because work wasn't stuck on my desk. The team felt more confident because they learned how to handle difficult tasks. I learned that my real job is to empower the team, not just do the work and i started focusing on the financials and new project requirements.
+--------------------------------------------------------------------------------------------------------------
+--------------------------------------------------------------------------------------------------------------
 
 Join: https://teams.microsoft.com/meet/22920000104377?p=6xIPi3CLcrl4vUxNdI
 
